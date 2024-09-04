@@ -37,16 +37,19 @@ class Controller extends ChangeNotifier{
     }
   }
 
-  int? _readValue({required Bucket? bucket,required String value}){
+  int? _readValue({required Bucket? bucket, required String value}) {
     final lista = bucket?.lista ?? [];
-    for(final rowBucket in lista){
-      if(rowBucket.chave==value){
+
+    for (final rowBucket in lista) {
+      if (rowBucket.chave.compareTo(value) == 0) {
         return rowBucket.numPagina;
       }
     }
-    if(bucket!=null){
-      _readValue(bucket: bucket.overflowBucket, value: value);
+
+    if (bucket?.overflowBucket != null) {
+      return _readValue(bucket: bucket!.overflowBucket, value: value);
     }
+
     return null;
   }
 

@@ -16,7 +16,6 @@ class DataLoader {
       var tupla = Tupla(chave: i, valor: line);
       tuplas.add(tupla);
     }
-    tuplas.forEach(print);
     return tuplas;
   }
 }
