@@ -7,6 +7,11 @@ class RowBucket{
   final String chave;
   final int numPagina;
   RowBucket({required this.chave, required this.numPagina});
+
+  @override
+  String toString() {
+    return 'RowBucket {chave: $chave, numPagina: $numPagina}';
+  }
 }
 
 class Bucket {

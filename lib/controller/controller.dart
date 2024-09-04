@@ -27,9 +27,14 @@ class Controller extends ChangeNotifier{
     if (_buckets != null) {
       final bucketNumber = Constants.hashFunction(valor);
       final chosenBucket = _buckets?[bucketNumber];
+      // if (chosenBucket != null) {
+      //   print(chosenBucket.lista);
+      //   print('of: ${chosenBucket.cntOverflow}');
+      //   print(chosenBucket.overflowBucket?.lista);
+      // }
       final pagina = _readValue(bucket: chosenBucket, value: valor);
       if (pagina != null) {
-        searchResult = "Chave encontrada na página $pagina.";
+        searchResult = "Chave encontrada na página $pagina. OF: ${chosenBucket!.cntOverflow.toString()}";
       } else {
         searchResult = "Chave não encontrada.";
       }
