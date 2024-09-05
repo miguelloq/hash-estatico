@@ -32,11 +32,11 @@ class BucketsGenerator{
     return buckets;
   }
 
-  static List<Bucket> call({required Tabela tabela,required int withValuePerPage}){
+  static (List<Bucket>,int qntPaginas) call({required Tabela tabela,required int withValuePerPage}){
     final List<Pagina> paginas = Pagina.from(tabela:tabela,withValuePerPage:withValuePerPage);
     final nr = tabela.lista.length;
     final fr = Constants.qtdTuplasInBucket();
     final nb = _calcNB(nr, fr);
-    return _generateBuckets(paginas: paginas,nb: nb);
+    return (_generateBuckets(paginas: paginas,nb: nb),paginas.length);
   }
 }

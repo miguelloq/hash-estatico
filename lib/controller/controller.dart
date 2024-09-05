@@ -8,19 +8,22 @@ import '../models/tabela.dart';
 class Controller extends ChangeNotifier{
   List<Bucket>? _buckets;
 
+  String statistics = "";
   String searchResult = "";
   String tableScanResult = "";
 
   void createBuckets({required Tabela dados,required int pageSize}){
-    _buckets=BucketsGenerator.call(tabela: dados, withValuePerPage: pageSize);
+    final (buckets,qPaginas) = BucketsGenerator.call(tabela: dados, withValuePerPage: pageSize);
+    _buckets= buckets;
+    statistics = "Quantidade de paginas geradas: $qPaginas "
+        "\n Quantidade de Buckets gerados: ${buckets.length} "
+        "\n Quantidade total de overflows: ${_qntOverflow()}";
     notifyListeners();
   }
 
   void tableScan(String valor) {
-    if (_buckets != null) {
-      tableScanResult = "Table scan nao implementado.";
-      notifyListeners();
-    }
+    tableScanResult = "Table scan nao implementado.";
+    notifyListeners();
   }
 
   void search(String valor) {
@@ -34,7 +37,7 @@ class Controller extends ChangeNotifier{
       // }
       final pagina = _readValue(bucket: chosenBucket, value: valor);
       if (pagina != null) {
-        searchResult = "Chave encontrada na página $pagina. OF: ${chosenBucket!.cntOverflow.toString()}";
+        searchResult = "Chave encontrada na página $pagina. Bucket que a chave foi encontrada tem OF: ${chosenBucket!.cntOverflow.toString()}";
       } else {
         searchResult = "Chave não encontrada.";
       }
@@ -57,5 +60,12 @@ class Controller extends ChangeNotifier{
 
     return null;
   }
-
+  int _qntOverflow(){
+    int qntOverflow = 0;
+    if(_buckets==null) return qntOverflow;
+    for(final bucket in _buckets!){
+      qntOverflow+=bucket.cntOverflow;
+    }
+    return qntOverflow;
+  }
 }
