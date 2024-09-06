@@ -19,6 +19,7 @@ class Bucket {
   final List<RowBucket> lista;
   Bucket? overflowBucket;
   int cntOverflow = 0;
+  int cntColisao = 0;
 
   Bucket({
     required this.id,

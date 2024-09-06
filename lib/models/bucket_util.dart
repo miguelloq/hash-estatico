@@ -15,6 +15,7 @@ class BucketsGenerator{
         bucket.overflowBucket = Bucket(id:bucket.cntOverflow.toString(),lista:[]);
       }
       _addValueBucket(bucket.overflowBucket!, tuplaValor, numPagina);
+      bucket.cntColisao++;
     } else {
       lista.add(RowBucket(chave: tuplaValor, numPagina: numPagina));
     }
@@ -24,7 +25,7 @@ class BucketsGenerator{
     List<Bucket> buckets = List.generate(nb,(int idx)=>Bucket(id:idx.toString(),lista:[])).toList();
     for(final pagina in paginas){
       for(final tupla in pagina.valores){
-        final desirableBucketId =  Constants.hashFunction(tupla.valor);
+        final desirableBucketId =  Constants.hashFunction(tupla.valor,buckets.length);
         final desirableBucket = buckets[desirableBucketId];
         _addValueBucket(desirableBucket, tupla.valor, pagina.numero);
       }
@@ -32,11 +33,11 @@ class BucketsGenerator{
     return buckets;
   }
 
-  static (List<Bucket>,int qntPaginas) call({required Tabela tabela,required int withValuePerPage}){
+  static (List<Bucket>, List<Pagina>) call({required Tabela tabela,required int withValuePerPage}){
     final List<Pagina> paginas = Pagina.from(tabela:tabela,withValuePerPage:withValuePerPage);
     final nr = tabela.lista.length;
     final fr = Constants.qtdTuplasInBucket();
     final nb = _calcNB(nr, fr);
-    return (_generateBuckets(paginas: paginas,nb: nb),paginas.length);
+    return (_generateBuckets(paginas: paginas,nb: nb),paginas);
   }
 }

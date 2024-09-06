@@ -104,7 +104,7 @@ class _MainContentState extends State<MainContent> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () => provider.tableScan(_searchKeyController.text),
+                  onPressed: () => provider.tableScan(_searchKeyController.text,),
                   child: const Text('Table Scan'),
                 ),
                 const SizedBox(height: 20),
